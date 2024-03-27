@@ -50,8 +50,7 @@ class StableDiffusionSafetyChecker(PreTrainedModel):
     def forward(self, clip_input, images):
         pooled_output = self.vision_model(clip_input)[1]  # pooled_output
         image_embeds = self.visual_projection(pooled_output)
-        # Возвращаем исходные изображения без фильтрации
-        return images, False
+
         # we always cast to float32 as this does not cause significant overhead and is compatible with bfloat16
         special_cos_dist = cosine_distance(image_embeds, self.special_care_embeds).cpu().float().numpy()
         cos_dist = cosine_distance(image_embeds, self.concept_embeds).cpu().float().numpy()
@@ -97,7 +96,7 @@ class StableDiffusionSafetyChecker(PreTrainedModel):
                 " Try again with a different prompt and/or seed."
             )
 
-        return images, has_nsfw_concepts
+        return images, False
 
     @torch.no_grad()
     def forward_onnx(self, clip_input: torch.FloatTensor, images: torch.FloatTensor):
