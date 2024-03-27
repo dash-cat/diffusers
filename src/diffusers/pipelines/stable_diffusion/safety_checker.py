@@ -51,7 +51,7 @@ class StableDiffusionSafetyChecker(PreTrainedModel):
         pooled_output = self.vision_model(clip_input)[1]  # pooled_output
         image_embeds = self.visual_projection(pooled_output)
         # Возвращаем исходные изображения без фильтрации
-        return images, false
+        return images, False
         # we always cast to float32 as this does not cause significant overhead and is compatible with bfloat16
         special_cos_dist = cosine_distance(image_embeds, self.special_care_embeds).cpu().float().numpy()
         cos_dist = cosine_distance(image_embeds, self.concept_embeds).cpu().float().numpy()
