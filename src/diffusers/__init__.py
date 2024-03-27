@@ -1,7 +1,7 @@
 __version__ = "0.28.0.dev0"
 
 from typing import TYPE_CHECKING
-
+print("custom diffusers loading")
 from .utils import (
     DIFFUSERS_SLOW_IMPORT,
     OptionalDependencyNotAvailable,
